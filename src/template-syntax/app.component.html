@@ -1,0 +1,258 @@
+<a id="toc"></a>
+<h1>Template syntax</h1>
+<a href="#interpolation">Interpolation</a>
+<a href="#expression-context">Expression Context</a>
+<a href="#statement-context">Statement Context</a>
+<a href="#new-mental-model">New Mental Model</a>
+<a href="#attributes-binding">Attributes binding</a>
+<a href="#class-binding">Class binding</a>
+<a href="#style-binding">Style binding</a>
+<a href="#event-binding">Event binding</a>
+<a href="#two-way">Two-way Binding</a>
+<div>Directives</div>
+<div style="margin-left: 8px">
+  <a href="#ngClass">NgClass</a>
+  <a href="#ngStyle">NgStyle</a>
+  <a href="#ngModel">NgModel</a>
+  <a href="#ngFor">NgFor</a>
+</div>
+<a href="#ref-vars">Template Reference Varibles</a>
+<a href="#inputs-outputs">Inputs and Outputs</a>
+
+<hr>
+<h2 id="interpolation">Interpolation</h2>
+<p> My current hero is {{currentHero.name}}</p>
+<h3>
+  <img src="{{heroImageUrl}}" style="height: 30px">
+</h3>
+<p> Sum of 1 + 1 is {{1+1}}</p>
+<p> Sum of 1 + 1 not {{1+1+getVal()}}</p>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+<!--=================================================================================================================-->
+<h2 id="expression-context">Expression Context ({{title}}, [hidden]="{{isUnchanged}}" )</h2>
+<div class="context">
+  {{title}}
+  <span [hidden]="isUnchanged">changed</span>
+</div>
+<p>Template input variable expression context (let hero)</p>
+<div *ngFor="let hero of heroes">{{hero.name}}</div>
+
+<input (keyup)="0" #heroInput> {{heroInput.value}}
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+
+<!--=================================================================================================================-->
+<h2 id="statement-context">Statement context</h2>
+<p>Component statement context</p>
+<div class="context">
+  <button (click)="deleteHero1()">Delete Hero</button>
+</div>
+<p>Template $event syntax context</p>
+<button (click)="onSave($event)">Save</button>
+<button *ngFor="let hero of heroes" (click)="deleteHero(hero)">{{hero.name}}</button>
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+
+<!--=================================================================================================================-->
+<h2 id="new-mental-model">New Mental Model</h2>
+<div class="special">Mental Model</div>
+<img src="assets/images/hero.png" style="height: 30px">
+<button disabled>Save</button>
+<br><br>
+<div class="special">Mental Model</div>
+<app-hero-detail></app-hero-detail>
+<br><br>
+<div>
+  <button [disabled]="!isUnchanged">Save</button>
+</div>
+
+<div>
+  <!--<img [src]="heroImageUrl"/>-->
+  <app-hero-detail prefix="You are my " [hero]="currentHero"></app-hero-detail>
+  <div [ngClass]="{'special': isSpecial}"></div>
+</div>
+<p><span>{{evilTitle}} is the <i>interpolated</i> evil title</span></p>
+<p><span [innerHtml]="evilTitle"></span> is the <i>property bound</i> evil title</p>
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+
+<!--=================================================================================================================-->
+<h2 id="attributes-binding">Attribute bindings</h2>
+<table border="1">
+  <tr>
+    <td [attr.colspan]="1+1">One-Two</td>
+  </tr>
+  <tr>
+    <td>Five</td><td>Six</td>
+  </tr>
+</table>
+<br>
+<button [attr.aria-label]="actionName">{{actionName}} with Aria</button>
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+
+<!--=================================================================================================================-->
+<h2 id="class-binding">Class binding</h2>
+<div class="bad curly special">Bad curly special</div>
+<div class="bad curly special" [class]="badCurly">Bad curly</div>
+<div [class.special]="isSpecial">The class binding is special</div>
+<div class="special" [class.special]="!isSpecial">The one is not special</div>
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+
+<!--=================================================================================================================-->
+<h2 id="style-binding">Style binding</h2>
+<button [style.color]="isSpecial ? 'red' : 'green'">Red</button>
+<button [style.backgroundColor]="canSave ? 'cyan' : 'grey'">Save</button>
+<button [style.font-size.em]="isSpecial ? 3 : 1">Big</button>
+<button [style.font-size.%]="!isSpecial ? 150 : 50">Small</button>
+
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+
+
+<!--=================================================================================================================-->
+<h2 id="event-binding">Event binding</h2>
+<button (click)="onSave($event)">Save</button>
+
+<app-hero-detail (deleteRequest)="deleteHero($event)"></app-hero-detail>
+
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+
+
+<!--=================================================================================================================-->
+<h2 id="two-way">Two-way Binding</h2>
+<div id="two-way-one">
+  <app-sizer [(size)]="fontSizePx"></app-sizer>
+  <div [style.font-size.px]="fontSizePx">Resizable Text</div>
+</div>
+
+<div id="two-way-two">
+  <app-sizer [size]="fontSizePx" (sizeChange)="fontSizePx=$event"></app-sizer>
+</div>
+
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+<!--=================================================================================================================-->
+
+<h2 id="ngClass">NgClass Binding</h2>
+<p>currentClasses is {{currentClasses | json}}</p>
+<div [ngClass]="currentClasses">This div is initially saveable, unchanged and special</div>
+
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+
+<!--=================================================================================================================-->
+<h2 id="ngStyle">NgStyle Binding</h2>
+<div [style.font-size]="isSpecial ? 'x-large' : 'smaller'">
+  This div is x-large or smaller
+</div>
+
+<div [ngStyle]="currentStyles">
+  This div is initially italic, normal weight, and extra large
+</div>
+
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+
+<!--=================================================================================================================-->
+<h2 id="ngModel">NgModel</h2>
+<h3>Result: {{currentHero.name}}</h3>
+<input [value]="currentHero.name" (input)="currentHero.name = $event.target.value"> witout ngmodel
+<br>
+<input [(ngModel)]="currentHero.name">[(ngModel)]
+<br>
+<input bindon-ngModel="currentHero.name">bind on ngModel
+<br>
+<input [ngModel]="currentHero.name" (ngModelChange)="currentHero.name=$event"> (ngModelChange)="...$event"
+<br>
+<input [ngModel]="currentHero.name" (ngModelChange)="setUpperCaseName($event)"> (ngModelChange)=setUpperCaseName($event)"
+
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+
+
+<!--=================================================================================================================-->
+<h2 id="ngFor">NgFor Binding</h2>
+
+<div class="box">
+  <div *ngFor="let hero of heroes">{{hero.name}}</div>
+</div>
+<br>
+<div class="box">
+  <app-hero-detail *ngFor="let hero of heroes" [hero]="hero"></app-hero-detail>
+</div>
+
+<h4 id="ngfor-index">*ngFor with index</h4>
+<p>with <i>semi-colon</i> separator</p>
+<div class="box">
+  <div *ngFor="let hero of heroes; let i = index">{{i+1}} - {{hero.name}} </div>
+</div>
+<br>
+<p>with <i>comma</i> separator</p>
+<div class="box">
+  <div *ngFor="let hero of heroes, let i = index">{{i+1}} - {{hero.name}} </div>
+</div>
+<br>
+
+<h4 id="ngfor-track-by">*ngFor trackBy</h4>
+<button (click)="resetHeroes()">Reset heroes</button>
+<button (click)="changeIds()">Change ids</button>
+<button (click)="clearTrackByCounts()">Clear counts</button>
+
+<p><i>without</i> trackBy</p>
+<div class="box">
+  <div #noTrackBy *ngFor="let hero of heroes">{{hero.id}} {{hero.name}}</div>
+  <div>
+    Hero DOM elements change #{{heroNoTrackByCount}} without trackBy
+  </div>
+</div>
+
+
+<p><i>with</i> trackBy</p>
+<div class="box">
+  <div #withTrackBy *ngFor="let hero of heroes; trackBy: trackByHero">{{hero.id}} {{hero.name}}</div>
+  <div>
+    Hero DOM elements change #{{heroWithTrackByCount}} with trackBy
+  </div>
+</div>
+
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+
+
+<!--=================================================================================================================-->
+<h2 id="ref-vars">Template Reference Varibles</h2>
+
+<input #phone placeholder="phone number">
+<button (click)="callPhone(phone.value)">Call</button>
+<br>
+<input ref-fax placeholder="fap number">
+<button (click)="callFax(fax.value)">Fax</button>
+
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
+
+
+<!--=================================================================================================================-->
+<h2 id="inputs-outputs">Inputs and Outputs</h2>
+
+
+<br>
+<a class="to-toc" href="#toc">top</a>
+<hr>
